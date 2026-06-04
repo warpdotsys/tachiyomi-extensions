@@ -98,7 +98,7 @@ jobs:
 
       - name: Upload APKs (${{ matrix.chunk.number }})
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        if: github.repository == 'yuzono/tachiyomi-extensions'
+        if: github.repository == 'warpdotsys/tachiyomi-extensions'
         with:
           name: "individual-apks-${{ matrix.chunk.number }}"
           path: "**/*.apk"
@@ -110,7 +110,7 @@ jobs:
   publish:
     name: Publish extension repo
     needs: [prepare, build]
-    if: github.repository == 'yuzono/tachiyomi-extensions'
+    if: github.repository == 'warpdotsys/tachiyomi-extensions'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -144,7 +144,7 @@ jobs:
       - name: Checkout repo branch
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          repository: yuzono/tachiyomi-repo
+          repository: warpdotsys/tachiyomi-repo
           token: ${{ secrets.BOT_PAT }}
           ref: repo
           path: repo
@@ -171,9 +171,9 @@ jobs:
           COMMIT_MESSAGE: ${{ needs.prepare.outputs.latestCommitMessage }}
         run: |
           cd repo
-          git config user.name "Yūzōnō"
-          git config user.email "yuzono@users.noreply.github.com"
-          git remote set-url origin https://github.com/yuzono/manga-repo.git
+          git config user.name "WarpDotSys"
+          git config user.email "warpdotsys@users.noreply.github.com"
+          git remote set-url origin https://github.com/warpdotsys/manga-repo.git
           git fetch origin
           git reset origin/repo
           git add -A
@@ -182,4 +182,4 @@ jobs:
 
       - name: Purge cached index on jsDelivr
         run: |
-          curl https://purge.jsdelivr.net/gh/yuzono/manga-repo@repo/index.min.json
+          curl https://purge.jsdelivr.net/gh/warpdotsys/manga-repo@repo/index.min.json
