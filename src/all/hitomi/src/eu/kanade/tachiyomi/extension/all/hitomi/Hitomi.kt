@@ -80,22 +80,34 @@ class Hitomi(
         }
     }
 
-    private lateinit var searchResponse: List<Int>
+    private var searchResponse: List<Int>? = null
+    private var lastSearchQuery: String? = null
+    private var lastSearchFiltersHash: Int = 0
+
+    private fun getSearchCacheKey(query: String, filters: FilterList): Int {
+        return query.hashCode() xor filters.hashCode()
+    }
 
     override fun fetchSearchManga(page: Int, query: String, filters: FilterList): Observable<MangasPage> = Observable.fromCallable {
         runBlocking {
-            if (page == 1) {
+            val cacheKey = getSearchCacheKey(query, filters)
+            val isNewSearch = page == 1 || lastSearchQuery != query || lastSearchFiltersHash != cacheKey
+
+            if (isNewSearch) {
                 searchResponse = hitomiSearch(
                     query.trim(),
                     filters,
                     nozomiLang,
                 )
+                lastSearchQuery = query
+                lastSearchFiltersHash = cacheKey
             }
 
-            val end = min(page * 25, searchResponse.size)
-            val entries = searchResponse.subList((page - 1) * 25, end)
+            val results = searchResponse ?: emptyList()
+            val end = min(page * 25, results.size)
+            val entries = results.subList((page - 1) * 25, end)
                 .toMangaList()
-            MangasPage(entries, end < searchResponse.size)
+            MangasPage(entries, end < results.size)
         }
     }
 
