@@ -25,7 +25,7 @@ Some extensions from this repo provide better support for Komikku's `Suggestions
 
 ## How to add the repo
 
-**If you are new to repository/extensions, please read the [Yūzōnō Getting Started guide](https://warpdotsys.github.io/docs/guides/getting-started#adding-the-extension-repo) first.**
+**If you are new to repository/extensions, please read the [warpdotsys Getting Started guide](https://warpdotsys.github.io/docs/guides/getting-started#adding-the-extension-repo) first.**
 
 * You can add our repo by visiting the [warpdotsys Website](https://warpdotsys.github.io/add-repo)
 * Otherwise, copy & paste the following URL:
