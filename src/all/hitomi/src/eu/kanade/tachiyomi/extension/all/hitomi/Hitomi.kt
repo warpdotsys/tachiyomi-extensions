@@ -84,9 +84,7 @@ class Hitomi(
     private var lastSearchQuery: String? = null
     private var lastSearchFiltersHash: Int = 0
 
-    private fun getSearchCacheKey(query: String, filters: FilterList): Int {
-        return query.hashCode() xor filters.hashCode()
-    }
+    private fun getSearchCacheKey(query: String, filters: FilterList): Int = query.hashCode() xor filters.hashCode()
 
     override fun fetchSearchManga(page: Int, query: String, filters: FilterList): Observable<MangasPage> = Observable.fromCallable {
         runBlocking {
